@@ -1,0 +1,107 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Task01.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Task01.Views.MainWindow"
+        x:DataType="viewModels:MainWindowViewModel"
+        Title="MainWindow">
+    <RelativePanel>
+        <!-- Информация о счёте -->
+        <StackPanel x:Name="ParametersPanel"
+                    Orientation="Vertical"
+                    RelativePanel.AlignTopWithPanel="True"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True">
+            <Label>
+                Параметры счёта
+            </Label>
+            <Grid RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*" DataContext="{Binding Account}">
+                <Label Grid.Column="0" Grid.Row="0">Имя банка: </Label>
+                <Label Grid.Column="1" Grid.Row="0" Content="{Binding BankName}"></Label>
+                <Label Grid.Column="0" Grid.Row="1">ИНН: </Label>
+                <Label Grid.Column="1" Grid.Row="1" Content="{Binding Inn}"></Label>
+                <Label Grid.Column="0" Grid.Row="2">БИК: </Label>
+                <Label Grid.Column="1" Grid.Row="2" Content="{Binding Bik}"></Label>
+                <Label Grid.Column="0" Grid.Row="3">Корреспондентский счёт: </Label>
+                <Label Grid.Column="1" Grid.Row="3" Content="{Binding CorrespondentAccount}"></Label>
+                <Label Grid.Column="0" Grid.Row="4">Баланс: </Label>
+                <Label Grid.Column="1" Grid.Row="4" Content="{Binding Balance}"></Label>
+                <Label Grid.Column="0" Grid.Row="5">Кредитные средства: </Label>
+                <Label Grid.Column="1" Grid.Row="5" Content="{Binding CurrentCredit}"></Label>
+                <Label Grid.Column="0" Grid.Row="6">Комиссия за снятие кредитных средств: </Label>
+                <Label Grid.Column="1" Grid.Row="6" Content="{Binding CreditCommission}"></Label>
+                <Label Grid.Column="0" Grid.Row="7">Прцентная ставка по кредиту: </Label>
+                <Label Grid.Column="1" Grid.Row="7" Content="{Binding CreditInterestRate}"></Label>
+            </Grid>
+        </StackPanel>
+        <!-- Блоки управления счётом -->
+        <StackPanel Orientation="Horizontal" 
+                    RelativePanel.Below="ParametersPanel"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    HorizontalAlignment="Center"
+                    Spacing="10">
+            <!-- Пополнение счёта -->
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        Spacing="10">
+                <ButtonSpinner Height="50" 
+                               Width="150" 
+                               Padding="10,10,10,10" 
+                               ButtonSpinnerLocation="Left"
+                               Name="DepositSpinner"
+                               Spin="DepositSpinner_OnSpin"
+                               Content="{Binding DepositValue}"/>
+                <Button Command="{Binding Deposit}">Пополнить счёт</Button>
+            </StackPanel>
+            <!-- Снятие денег со счёта -->
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Center"
+                        Spacing="10">
+                <ButtonSpinner Height="50" 
+                               Width="150" 
+                               Padding="10,10,10,10" 
+                               Name="WithdrawSpinner"
+                               Spin="WithdrawSpinner_OnSpin"
+                               ButtonSpinnerLocation="Left"
+                               Content="{Binding WithdrawValue}"/>
+                <Button Command="{Binding Withdraw}">Снять деньги</Button>
+            </StackPanel>
+            <!-- Взятие кредита -->
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        Spacing="10">
+                <ButtonSpinner Height="50" 
+                               Width="150" 
+                               Padding="10,10,10,10" 
+                               ButtonSpinnerLocation="Left" 
+                               Spin="TakeCreditSpinner_OnSpin" 
+                               Name="TakeCreditSpinner"
+                               Content="{Binding TakeCreditValue}"/>
+                <Button Command="{Binding TakeCredit}">Взять кредит</Button>
+            </StackPanel>
+            <!-- Частичное погашение кредита -->
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Center"
+                        Spacing="10">
+                <ButtonSpinner Height="50" 
+                               Width="150" 
+                               Padding="10,10,10,10" 
+                               ButtonSpinnerLocation="Left"
+                               Name="RepayCreditSpinner"
+                               Spin="RepayCreditSpinner_OnSpin"
+                               Content="{Binding RepayCreditValue}"/>
+                <Button Command="{Binding RepayCredit}">Частично погасить кредит</Button>
+            </StackPanel>
+            <!-- Начисление процента -->
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Center"
+                        Spacing="10">
+                <Button Name="AccrueInterestButton" Command="{Binding AccrueInterest}">Начислить процент</Button>
+            </StackPanel>
+        </StackPanel>
+    </RelativePanel>
+    
+</Window>
