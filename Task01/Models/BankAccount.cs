@@ -51,11 +51,6 @@ public class BankAccount(
             throw new ArgumentException("Сумма кредита должна быть положительной.");
         }
 
-        if (amount > CurrentCredit)
-        {
-            throw new InvalidOperationException("Запрашиваемая сумма превышает доступный кредитный лимит.");
-        }
-
         CurrentCredit += amount;
         Balance += amount;
         Balance -= CreditCommission / 100 * Balance; // Комиссия за снятие кредита
@@ -73,9 +68,9 @@ public class BankAccount(
             throw new InvalidOperationException("Сумма погашения превышает текущий баланс.");
         }
 
-        if (amount > decimal.Max(CurrentCredit - Balance, CurrentCredit))
+        if (amount > CurrentCredit)
         {
-            throw new InvalidOperationException("Сумма погашения превышает задолженность по кредиту.");
+            amount = CurrentCredit;
         }
 
         Balance -= amount;
@@ -85,6 +80,10 @@ public class BankAccount(
     public void AccrueInterest()
     {
         var interest = CurrentCredit * CreditInterestRate / 100;
+        if (Balance - interest <= new decimal(0.0))
+        {
+            throw new InvalidOperationException("Сумма будет отрицательной при начисении процента");
+        }
         Balance -= interest;
     }
 }
